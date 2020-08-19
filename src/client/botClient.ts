@@ -5,6 +5,7 @@ import { owners, prefix } from './../config';
 import { AkairoClient, CommandHandler, ListenerHandler } from 'discord-akairo';
 import { User, Message } from 'discord.js';
 import { join } from 'path';
+import MongoConnection from '../utils/mongoConnection';
 
 // Discord Akairo
 declare module 'discord-akairo' {
@@ -68,6 +69,9 @@ export default class BotClient extends AkairoClient {
 
   // Bruh no idea like loading modules I guess?
   private async _init(): Promise<void> {
+    // MongoDB Connection
+    const mongoDB = new MongoConnection();
+    mongoDB.init();
     this.commandHandler.useListenerHandler(this.listenerHandler);
     this.listenerHandler.setEmitters({
       commandHandler: this.commandHandler,
